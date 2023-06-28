@@ -4,9 +4,10 @@ let timerId = null;
 let clickCount = 0;
 let ballPrevious = null;
 
-let colors = ["#3CC157", "#2AA7FF"];
-let numBalls = 10;
+let colors = ["#3CC157", "#2AA7FF", "#ff5050"];
+let numBalls = 18;
 const balls = [];
+
 
 //create my balls
     for (let i = 0; i < numBalls; i++) {
@@ -25,10 +26,15 @@ const balls = [];
         ball.style.bottom = `${Math.floor(Math.random() * 100)}vh`;
         ball.style.transform = `scale(${Math.random()})`;
         //To manipulate the size of the balls, Random number between max=10 and min=3 --> Math.random() * (max - min + 1) + min
-        ball.style.width = `${Math.random()*(10-5+1)+5}em`;
+        ball.style.width = `${Math.random()*(10-3+1)+3}em`;
         ball.style.height = ball.style.width;
         ball.style.borderRadius = "100%";      // remove css border radious
         ball.style.opacity = "0.95";
+        // if (Math.random() < 0.5) {
+        //     ball.style.opacity = "0.5";
+        //   } else {
+        //     ball.style.opacity = "0.95";
+        //   }
 
 
         balls.push(ball);
@@ -41,16 +47,19 @@ const balls = [];
 
         let to = {
             x: Math.random() * (i % 2 === 0 ? -12 : 12),
-            y: Math.random() * 10
+            y: Math.random() * 12
         };
+        
+        // colors[0] chosen color for faster movement
+        const isFastColor = elem.style.background === colors[0];
 
         let anim = elem.animate(
             [
-            { transform: "translate(0, 0)" },
+            { transform: "translate( 0, 5)" },
             { transform: `translate(${to.x}rem, ${to.y}rem)` }
             ],
             {
-            duration: (Math.random() + 1) * 2000, // random duration
+            duration: isFastColor ? (Math.random() + 1) * 4000 : (Math.random() + 1) * 1500, // random duration for fast or regular movement
             direction: "alternate",
             fill: "both",
             iterations: Infinity,
@@ -89,7 +98,7 @@ function matchColor(ball1, ball2) {
     if (numBalls === 0) {
         clearInterval(countDownTimerId);
         alert('YOU WON!');
-        changeScriptFile(); // Redirect to game_2.js after clicking "OK"
+        // Redirect to game_2.js after clicking "OK"
       }
     }
 }
@@ -103,17 +112,8 @@ function countDown() {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
         alert('GAME OVER!');
-        location.href = 'game_1.js';
+       
     }
 }
     
 let countDownTimerId = setInterval(countDown, 1000)
-
-function changeScriptFile() {
-    const currentScript = document.currentScript;
-    const newScript = document.createElement('script');
-    newScript.src = 'JS/game_2.js';
-  
-    currentScript.parentNode.insertBefore(newScript, currentScript);
-    currentScript.remove();
-  }
