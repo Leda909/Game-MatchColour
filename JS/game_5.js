@@ -1,13 +1,12 @@
 const timeLeft = document.querySelector('#time-left');
-let currentTime = 30;
+let currentTime = 120;
 let timerId = null;
 let clickCount = 0;
 let ballPrevious = null;
 
-let colors = ["#3CC157", "#2AA7FF", "#ff5050"];
-let numBalls = 18;
+let colors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc"];
+let numBalls = 50;
 const balls = [];
-
 
 //create my balls
     for (let i = 0; i < numBalls; i++) {
@@ -19,7 +18,6 @@ const balls = [];
         ball.classList.add("ball");
         // Add individual ID to each ball, so it will be identificable at clicking
         ball.id = `ball-${i + 1}`; 
-       
         ball.style.background = color;
         // vw = viewer point witdh & vh = viewer point height 
         ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
@@ -29,13 +27,8 @@ const balls = [];
         ball.style.width = `${Math.random()*(10-3+1)+3}em`;
         ball.style.height = ball.style.width;
         ball.style.borderRadius = "100%";      // remove css border radious
-        ball.style.opacity = "0.95";
-        // if (Math.random() < 0.5) {
-        //     ball.style.opacity = "0.5";
-        //   } else {
-        //     ball.style.opacity = "0.95";
-        //   }
-
+        // ball.style.opacity = "0.95";
+        ball.style.opacity = Math.random() < 0.2 ? "0.2" : "0.99";  //aproximetly 1/3 of balls get more opacity
 
         balls.push(ball);
         document.body.append(ball);
@@ -50,8 +43,26 @@ const balls = [];
             y: Math.random() * 12
         };
         
-        // colors[0] chosen color for faster movement
-        const isFastColor = elem.style.background === colors[0];
+        // Function to generate a random color
+        const getRandomColor = (ball) => {
+            return colors[Math.floor(Math.random() * colors.length)];
+        };
+         // Update the background colors of the balls at regular intervals
+        setInterval(() => {
+            balls.forEach((ball) => {
+                ball.style.background = getRandomColor();
+            });
+        }, 3000); // Change colors every 3 second 
+
+        // Function to randomly change between borderRadius 100% and 0
+        function changeBorderRadius(ball) {
+            const borderRadius = Math.random() < 0.5 ? "100%" : "0";
+            ball.style.borderRadius = borderRadius;
+        }
+        setInterval(() => changeBorderRadius(elem), Math.random() * 3000 + 1000); // Random interval to change borderRadius
+        
+        // colors[x] chosen color for faster movement
+        const isFastColor = elem.style.background === colors[Math.floor(Math.random() * colors.length)];
 
         let anim = elem.animate(
             [
@@ -81,25 +92,34 @@ const balls = [];
     });
 
 // Match colour Oncklick - function
-// If I cklick on the same colour after each other ==> clear them out : else nothing happen
+// If I cklick on the same colour after each other ==> clear out two elem. === numBalls-2
+// If I cklick on the same color and form after each other ===> clear out four elem === numBalls-4
 function matchColor(ball1, ball2) {
-    if (
-        ball1.style.background === ball2.style.background &&
-        ball1.id !== ball2.id
-      ) {
-      ball1.remove();
-      ball2.remove();
-      numBalls -= 2;
-
-      console.log(`BallsLength: ${numBalls}`);
-      console.log(`ball.id: ${ball1.id}`);
-      console.log(`ball.id: ${ball2.id}`);
-
-    if (numBalls === 0) {
+    if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
+        //Remove two balls
+        ball1.remove();
+        ball2.remove();
+        numBalls -= 2;
+            console.log(`ball.id: ${ball1.id}`);
+            console.log(`ball.id: ${ball2.id}`);
+            console.log(`BallsLength: ${numBalls}`);
+    } else if (ball1.style.borderRadius === ball2.style.borderRadius && ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
+        // Remove four balls
+        ball1.remove();
+        ball2.remove();
+        ball1.nextElementSibling.remove();
+        ball2.nextElementSibling.remove();
+        numBalls -= 4;
+            console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
+            console.log(`ball.color: ${ball1.style.background}`);
+            console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
+            console.log(`ball.color: ${ball2.style.background}`);
+            console.log(`BallsLength: ${numBalls}`);
+    }
+    if (numBalls <= 0) {
         clearInterval(countDownTimerId);
         alert('YOU WON!');
         // Redirect to game_2.js after clicking "OK"
-      }
     }
 }
 

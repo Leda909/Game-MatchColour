@@ -30,7 +30,7 @@ const balls = [];
         ball.style.height = ball.style.width;
         ball.style.borderRadius = "100%";      // remove css border radious
         // ball.style.opacity = "0.95";
-        ball.style.opacity = Math.random() < 0.7 ? "0.2" : "0.99";  //aproximetly 1/3 of balls get more opacity
+        ball.style.opacity = Math.random() < 0.2 ? "0.2" : "0.99";  //aproximetly 1/3 of balls get more opacity
 
         balls.push(ball);
         document.body.append(ball);
@@ -45,7 +45,7 @@ const balls = [];
             y: Math.random() * 12
         };
         
-        // colors[0] chosen color for faster movement
+        // colors[x] chosen color for faster movement
         const isFastColor = elem.style.background === colors[2];
 
         
@@ -56,7 +56,7 @@ const balls = [];
             { transform: `translate(${to.x}rem, ${to.y}rem)` }
             ],
             {
-            duration: isFastColor ? (Math.random() + 1) * 3000 : (Math.random() + 1) * 1500, // random duration for fast or regular movement
+            duration: isFastColor ? (Math.random() + 1) * 5000 : (Math.random() + 1) * 2000, // random duration for fast or regular movement
             direction: "alternate",
             fill: "both",
             iterations: Infinity,
