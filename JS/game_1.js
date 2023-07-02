@@ -5,7 +5,7 @@ let clickCount = 0;
 let ballPrevious = null;
 
 let colors = ["#3CC157", "#2AA7FF"];
-let numBalls = 10;
+let numBalls = 16;
 const balls = [];
 
 //create my balls
@@ -103,23 +103,10 @@ function countDown() {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
         alert('GAME OVER!');
-        
+        alert('YOU WON!');
+changeScriptFile();
     }
 }
     
 let countDownTimerId = setInterval(countDown, 1000)
 
-function changeScriptSource() {
-    alert('You won!');
-    const scriptElement = document.querySelector('script[src="JS/game_1.js"]');
-    scriptElement.src = 'JS/game_2.js';
-  }
-
-// function changeScriptFile() {
-//     const currentScript = document.currentScript;
-//     const newScript = document.createElement('script');
-//     newScript.src = 'JS/game_2.js';
-  
-//     currentScript.parentNode.insertBefore(newScript, currentScript);
-//     currentScript.remove();
-//   }

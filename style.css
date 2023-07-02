@@ -1,3 +1,7 @@
 .ball {
-    position: absolute;
+  position: absolute;
   }
+
+h2 {
+  display: inline-block;
+}

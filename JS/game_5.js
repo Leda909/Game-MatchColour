@@ -5,7 +5,7 @@ let clickCount = 0;
 let ballPrevious = null;
 
 let colors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc"];
-let numBalls = 50;
+let numBalls = 74;
 const balls = [];
 
 //create my balls
@@ -19,9 +19,9 @@ const balls = [];
         // Add individual ID to each ball, so it will be identificable at clicking
         ball.id = `ball-${i + 1}`; 
         ball.style.background = color;
-        // vw = viewer point witdh & vh = viewer point height 
-        ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
-        ball.style.bottom = `${Math.floor(Math.random() * 100)}vh`;
+        // vw = viewer point witdh & vh = viewer point height
+        ball.style.left = `${Math.floor(Math.random() * 90-(2*ball.offsetWidth))}vw`;
+        ball.style.bottom = `${Math.floor(Math.random() * 90-(2*ball.offsetHeight))}vh`;
         ball.style.transform = `scale(${Math.random()})`;
         //To manipulate the size of the balls, Random number between max=10 and min=3 --> Math.random() * (max - min + 1) + min
         ball.style.width = `${Math.random()*(10-3+1)+3}em`;
@@ -66,7 +66,7 @@ const balls = [];
 
         let anim = elem.animate(
             [
-            { transform: "translate( 0, 5)" },
+            { transform: "translate( 0, Math.random())" },
             { transform: `translate(${to.x}rem, ${to.y}rem)` }
             ],
             {
@@ -91,11 +91,18 @@ const balls = [];
         }); 
     });
 
+function removeRandomBall() {
+    const randomIndex = Math.floor(Math.random() * balls.length);
+    const removedBall = balls.splice(randomIndex, 1)[0];
+    removedBall.remove();
+    numBalls--;
+    }
+
 // Match colour Oncklick - function
 // If I cklick on the same colour after each other ==> clear out two elem. === numBalls-2
 // If I cklick on the same color and form after each other ===> clear out four elem === numBalls-4
 function matchColor(ball1, ball2) {
-    if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
+    if (ball1.style.background == ball2.style.background && ball1.id !== ball2.id) {
         //Remove two balls
         ball1.remove();
         ball2.remove();
@@ -107,8 +114,10 @@ function matchColor(ball1, ball2) {
         // Remove four balls
         ball1.remove();
         ball2.remove();
-        ball1.nextElementSibling.remove();
-        ball2.nextElementSibling.remove();
+       // ball1.nextElementSibling.remove();
+       // ball2.nextElementSibling.remove();
+        removeRandomBall();
+        removeRandomBall();
         numBalls -= 4;
             console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
             console.log(`ball.color: ${ball1.style.background}`);
@@ -118,8 +127,8 @@ function matchColor(ball1, ball2) {
     }
     if (numBalls <= 0) {
         clearInterval(countDownTimerId);
-        alert('YOU WON!');
-        // Redirect to game_2.js after clicking "OK"
+        alert('Congratulation! You can go for the next level!');
+        // Redirect to next level after clicking "OK"
     }
 }
 

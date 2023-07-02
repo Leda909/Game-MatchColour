@@ -5,7 +5,7 @@ let clickCount = 0;
 let ballPrevious = null;
 
 let colors = ["#3CC157", "#2AA7FF", "#ff5050"];
-let numBalls = 18;
+let numBalls = 26;
 const balls = [];
 
 

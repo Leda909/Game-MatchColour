@@ -1,11 +1,11 @@
 const timeLeft = document.querySelector('#time-left');
-let currentTime = 60;
+let currentTime = 45;
 let timerId = null;
 let clickCount = 0;
 let ballPrevious = null;
 
 let colors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900"];
-let numBalls = 30;
+let numBalls = 40;
 const balls = [];
 
 
@@ -22,8 +22,8 @@ const balls = [];
        
         ball.style.background = color;
         // vw = viewer point witdh & vh = viewer point height 
-        ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
-        ball.style.bottom = `${Math.floor(Math.random() * 100)}vh`;
+        ball.style.left = `${Math.floor(Math.random() * 90-(ball.offsetWidth))}vw`;
+        ball.style.bottom = `${Math.floor(Math.random() * 90-(2*ball.offsetHeight))}vh`;
         ball.style.transform = `scale(${Math.random()})`;
         //To manipulate the size of the balls, Random number between max=10 and min=3 --> Math.random() * (max - min + 1) + min
         ball.style.width = `${Math.random()*(10-3+1)+3}em`;
