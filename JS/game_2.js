@@ -36,7 +36,6 @@ const balls = [];
         //     ball.style.opacity = "0.95";
         //   }
 
-
         balls.push(ball);
         document.body.append(ball);
     }
@@ -55,7 +54,7 @@ const balls = [];
 
         let anim = elem.animate(
             [
-            { transform: "translate( 0, 5)" },
+            { transform: "translate( 0, 4)" },
             { transform: `translate(${to.x}rem, ${to.y}rem)` }
             ],
             {

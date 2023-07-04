@@ -14,12 +14,10 @@ const balls = [];
         //Create x amount of elements from which even amount of element get the same background color
         const colorIndex = Math.floor(i / 2) % colors.length;
         const color = colors[colorIndex];
-
         let ball = document.createElement("div");
         ball.classList.add("ball");
         // Add individual ID to each ball, so it will be identificable at clicking
         ball.id = `ball-${i + 1}`; 
-       
         ball.style.background = color;
         // vw = viewer point witdh & vh = viewer point height 
         ball.style.left = `${Math.floor(Math.random() * 90-(ball.offsetWidth))}vw`;
