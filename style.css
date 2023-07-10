@@ -6,3 +6,98 @@ h2 {
   display: inline-block;
   font-size: 40px;
 }
+
+/* ----- Sart of FISH ------ */
+#fish-container * div:not(.eye) {
+  background-color: green;
+}
+
+.fish {
+  width: 70px;
+  height: 35px;
+  margin: 200px;
+  position: absolute;
+  border-radius: 50%;
+  background-color: blue;
+  top: -150px;
+  left: 100px;
+}
+
+.body {
+  width: 130px;
+  height: 60px;
+  background-color: #0000ff;
+  position: absolute;
+  top: 40%;
+  left: 5%;
+  transform: translate(0, -50%);
+  border-radius: 50%;
+}
+
+.tail {
+  width: 70px;
+  height: 100px;
+  background-color: #0000ff;
+  position: absolute;
+  top: 15px;
+  left: 5px;
+  transform: translate(-100%, -50%) rotate(100deg); /* Added rotation */
+  border-radius: 50% 50% 0 0;
+  opacity: 0.8;
+}
+
+.eye {
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  position: absolute;
+  top: 35%;
+  left: 135%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.fins {
+  width: 30px;
+  height: 50px;
+  background-color: #0000ff;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50% 50% 0 0;
+  opacity: 0.8;
+}
+
+.left-fin {
+  left: 75px;
+  transform: translate(-100%, -10%) rotate(30deg); 
+}
+
+.right-fin {
+  right: 40px;
+  transform: translate(100%, -10%) rotate(10deg);
+}
+
+@keyframes tailSwim {
+  0% {height: 100px; top: 15px; transform: translate(-100%, -50%) rotate(100deg);}
+  25% {height: 70px; top: 25px; transform: translate(-100%, -50%) rotate(60deg);}
+  75% {height: 100px; top: 15px; transform: translate(-100%, -50%) rotate(100deg);}
+  100% {height: 70px; top: -5px; transform: translate(-100%, -40%) rotate(130deg);}
+}
+@keyframes left-finSwim {
+  0% {transform: translate(-100%, -10%) rotate(-10deg);}
+  50% {transform: translate(-100%, -10%) rotate(30deg)}
+}
+@keyframes right-finSwim {
+  0% { transform: translate(100%, -10%) rotate(10deg);}
+  50% { transform: translate(100%, -15%) rotate(60deg);}
+}
+.tail {
+  animation: tailSwim 3s ease-in-out infinite;
+}
+.left-fin {
+  animation: left-finSwim 2s ease-in-out infinite;
+}
+.right-fin {
+  animation: right-finSwim 2s ease-in-out infinite;
+}

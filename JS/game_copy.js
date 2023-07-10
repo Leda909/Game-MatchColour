@@ -1,11 +1,23 @@
 //Building together the levels ==> init() function onload by moving further levels
 const timeLeft = document.querySelector('#time-left');
-let currentTime = null;
 let countDownTimerId = null;
+let currentTime = null;
 let timerId = null;
+let Mlevel = 1;
 let numBalls = null;
-let level = null;
-//const level1 = {color:["#FCBC0F"], CurrentTime:}
+let MnumBalls = [18, 28, 40, 56, 74, 80];
+let McurrentTime = [30, 60, 90, 180, 220, 250];
+let Mcolors = [ "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
+function GenerateLevel (level) {
+    return {
+        pLevel : level,
+        pNumBalls : MnumBalls[level-1],
+        pPushColor: Mcolors.slice(0, level),
+        pCurrentTime : McurrentTime[level-1],
+    };
+}
+
+
 
 function matchColor(ball1, ball2) {
     if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
@@ -13,12 +25,42 @@ function matchColor(ball1, ball2) {
       ball2.remove();
       numBalls = numBalls-2;
       console.log(`BallsLenght: ${numBalls}`);
-      if (numBalls === 0){
+    } else if (ball1.style.borderRadius === ball2.style.borderRadius &&
+        ball1.style.background === ball2.style.background && 
+        ball1.id !== ball2.id) {
+        // Remove four balls
+        ball1.remove();
+        ball2.remove();
+        removeRandomBall();
+        removeRandomBall();
+        numBalls -= 4;
+            console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
+            console.log(`ball.color: ${ball1.style.background}`);
+            console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
+            console.log(`ball.color: ${ball2.style.background}`);
+            console.log(`BallsLength: ${numBalls}`);
+    } else if (ball1.classList.contains('fish') &&  ///// hogyan mondomm neki hogyha a halra kattint
+              (fish.style.background === "#2AA7FF")) {
+        const targetColor = colors[Math.floor(Math.random() * colors.length)];
+        const matchingBalls = balls.filter(ball => ball.style.background === targetColor);
+        matchingBalls.forEach(ball => {
+            ball.remove();
+            numBalls--;
+        });
+        console.log(`Fish clicked. Color: ${targetColor}`);
+        console.log(`Removed ${matchingBalls.length} balls. BallsLength: ${numBalls}`);
+    }
+    if (numBalls <= 0) {
         clearInterval(countDown);
-        alert('Congratulation! You can move to level '+ level + '!');
-        init (24, "#FCBC0F", 60, 4);
-      }
-    }       
+        if (Mlevel === 6) {
+          alert('You won!!! You are the best!');
+          return; // Stop the game progression
+        }
+        alert('Congratulations! You can move to level ' + (Mlevel + 1) + '!');
+        Mlevel = Mlevel + 1;
+        let levelObject = GenerateLevel(Mlevel);
+        init(levelObject.pNumBalls, levelObject.pPushColor, levelObject.pCurrentTime, levelObject.pLevel);
+      }    
 }
 
 function countDown() {
@@ -28,9 +70,12 @@ function countDown() {
     if (currentTime == 0) {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
-        alert('GAME OVER!');
+        alert('Game over');
+        // Mlevel = 1; // Reset the level to 1
+        // let levelObject = GenerateLevel(level);
+        // init(levelObject.pNumBalls, levelObject.pPushColor, levelObject.pCurrentTime, levelObject.pLevel);
     }
-    }  
+}  
 
 function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
     numBalls = pNumBalls;
@@ -38,8 +83,10 @@ function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
     level = pLevel;
     let colors = ["#3CC157", "#2AA7FF"];
     console.log(`pPushColor: ${pPushColor}`);
-    if (pPushColor !== undefined && pPushColor !== null){
-        colors.push(pPushColor);
+    if (pPushColor !== undefined && pPushColor !== null) {
+        // Add this line to create the pPushColor array with one color
+        //pPushColor = Mcolors.slice(2, level + 1);
+        colors.push(...pPushColor);
     }
     
     let clickCount = 0;
@@ -64,8 +111,12 @@ function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
         ball.style.width = `${Math.random()*(10-3+1)+3}em`;
         ball.style.height = ball.style.width;
         ball.style.borderRadius = "100%";      // remove css border radious
-        ball.style.opacity = "0.95";
-
+        if (pLevel > 4) {
+            ball.style.opacity = Math.random() < 0.2 ? "0.2" : "0.99";  //aproximetly 1/3 of balls get more opacity
+        } else {
+            ball.style.opacity = "0.95";
+        }
+        
         balls.push(ball);
         document.body.append(ball);
     }
@@ -149,10 +200,10 @@ function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
         if ( pLevel > 3 ){animateOpacityChange(10000, 40);}
         // Fish.js from level 5 ------------//
         if ( pLevel > 4) {
-            // Create a <script> element
-             var script = document.createElement('script');
-             script.src = 'fish.js';
-             document.head.appendChild(script);
+            // Create a <script> element for adding fish.js
+            var script = document.createElement('script');
+            script.src = 'JS/fish.js';
+            document.body.appendChild(script);
         }
         // ---- Random Colour changes from LEVEL 6 -------//
         if ( pLevel > 5 ){
