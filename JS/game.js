@@ -6,7 +6,7 @@ let timerId = null;
 let Mlevel = 1;
 let numBalls = null;
 let MnumBalls = [18, 28, 40, 56, 74, 80];
-let McurrentTime = [30, 60, 90, 180, 220, 250];
+let McurrentTime = [30, 60, 120, 180, 220, 250];
 let Mcolors = [ "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
 function GenerateLevel (level) {
     return {
@@ -79,9 +79,8 @@ function countDown() {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
         alert('Game over');
-        // Mlevel = 1; // Reset the level to 1
-        // let levelObject = GenerateLevel(level);
-        // init(levelObject.pNumBalls, levelObject.pPushColor, levelObject.pCurrentTime, levelObject.pLevel);
+        // Refresh the page after the alert
+        window.location.reload();
     }
 }  
 
