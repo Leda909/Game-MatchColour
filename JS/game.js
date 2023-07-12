@@ -17,12 +17,12 @@ function GenerateLevel (level) {
     };
 }
 
-function removeRandomBall() {
-    const randomIndex = Math.floor(Math.random() * balls.length);
-    const removedBall = balls.splice(randomIndex, 1)[0];
-    removedBall.remove();
-    //numBalls--;
-  }
+// function removeRandomBall() {
+//     const randomIndex = Math.floor(Math.random() * balls.length);
+//     const removedBall = balls.splice(randomIndex, 1)[0];
+//     removedBall.remove();
+//     //numBalls--;
+//   }
 
 function matchColor(ball1, ball2) {
     if (ball1.style.borderRadius === ball2.style.borderRadius &&
