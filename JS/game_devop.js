@@ -17,68 +17,106 @@ function GenerateLevel (level) {
     };
 }
 
-function generateRandomIndex(removedList) {
-    const randomIndex = Math.floor(Math.random() * balls.length);
-    console.log(`randomIndex: ${randomIndex}`);
-    console.log(`removedList_1: ${removedList}`);
-    while(removedList.includes(randomIndex)) { 
-        //Keep on while guessing a new random index while is not included in the removedList. 
-        //Keep on guessing a random index while the random index guess is not in the removedList.
-    randomIndex = Math.floor(Math.random() * balls.length);
-    }
-    return randomIndex;
-    }
-
-// Match colour Oncklick - function
-function removeRandomBall(removedList) {
-  console.log(`removedList_2: ${removedList}`);
-  const randomIndex = generateRandomIndex(removedList);
-  const removedBall = balls.splice(randomIndex, 1)[0];
-  removedBall.remove();
-  return randomIndex
-  //numBalls--;
+// --- Pre.func to Remove4 ---
+function matchFourthBall(thirdBallColor) {
+    const matchingBalls = balls.filter(
+       (ball) =>
+         ball.style.background === thirdBallColor && !removedList.includes(ball.id)
+    );
+    const fourthBallRemoved = matchingBalls[Math.floor(Math.random() * matchingBalls.length)];
+    fourthBallRemoved.remove();
+    return fourthBallRemoved;
 }
 
-function matchColor(ball1, ball2) {
-    // Remove four balls
-    if (ball1.style.borderRadius === ball2.style.borderRadius &&
-        ball1.style.background === ball2.style.background && 
-        ball1.id !== ball2.id) {
-        console.log(`BallsLengthBefore: ${numBalls}`);
-        ball1.remove();
-        ball2.remove();
-        removedList = [ball1, ball2 ];
-        console.log(`removedList_3: ${removedList}`);
-        const firstBallRemoved = removeRandomBall(removedList);
-        removedList.push(firstBallRemoved);
-        removeRandomBall(); 
-        //removeRandomBall();
-        //removeRandomBall();
-        numBalls -= 4;
-            // console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
-            // console.log(`ball.color: ${ball1.style.background}`);
-            // console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
-            // console.log(`ball.color: ${ball2.style.background}`);
-        console.log(`BallsLengthAfter: ${numBalls}`);
-
-    } else if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
-      console.log(`BallsLengthBefore: ${numBalls}`);
-      ball1.remove();
-      ball2.remove();
-      numBalls = numBalls-2;
-      console.log(`BallsLenghtAfter: ${numBalls}`);
-
-    } else if (ball1.classList.contains('fish') &&  ///// hogyan mondomm neki hogyha a halra kattint
-              (fish.style.background === "#2AA7FF")) {
-        const targetColor = colors[Math.floor(Math.random() * colors.length)];
-        const matchingBalls = balls.filter(ball => ball.style.background === targetColor);
-        matchingBalls.forEach(ball => {
-            ball.remove();
-            numBalls--;
-        });
-        console.log(`Fish clicked. Color: ${targetColor}`);
-        console.log(`Removed ${matchingBalls.length} balls. BallsLength: ${numBalls}`);
+function generateRandomIndex() {
+    let randomIndex = Math.floor(Math.random() * balls.length);
+    // console.log(`randomIndex: ${randomIndex}`);
+    // console.log(`removedList_1: ${removedList}`);
+    while (removedList.includes(`${randomIndex+1}`)) { 
+        //Keep on guessing a random index while the random index guess is not in the removedList.
+        randomIndex = Math.floor(Math.random() * balls.length);
     }
+    return randomIndex;
+}
+
+function removeRandomBall() {
+    //console.log(`removedList_2: ${removedList}`);
+    const randomIndex = generateRandomIndex();
+    const removedBall = balls.splice(randomIndex, 1)[0];
+    removedBall.remove();
+    return removedBall;
+} // --- Pre.func to Remove4 End ---
+
+// Match same colored balls function
+function matchColor(ball1, ball2) {
+     if (ball1.style.borderRadius === ball2.style.borderRadius && 
+         ball1.style.background === ball2.style.background && 
+        ball1.id !== ball2.id) {
+          //console.log(`BallsLengthBefore: ${numBalls}`);
+           // Remove four balls
+         ball1.remove();
+         ball2.remove();
+         removedList = [ball1.id, ball2.id ];
+           //console.log(`BallsLengthMiddle: ${numBalls}`);
+           //console.log(`removedList_3: ${removedList}`);
+         const thirdBallRemoved = removeRandomBall(`${removedList}`);
+         removedList.push(thirdBallRemoved.id);
+         const thirdBallColor = thirdBallRemoved.style.background;
+         const fourthBallRemoved = matchFourthBall(thirdBallColor);
+         //removeRandomBall()
+         numBalls -= 4;
+           //console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
+           //console.log(`ball.color: ${ball1.style.background}`);
+           //console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
+           //console.log(`ball.color: ${ball2.style.background}`);
+           //console.log(`BallsLengthAfter: ${numBalls}`);
+     } else if ( ball1.style.background === ball2.style.background &&
+             ball1.id !== ball2.id) {
+           //console.log(`BallsLengthBefore: ${numBalls}`);      
+         ball1.remove();
+         ball2.remove();
+         numBalls -= 2;
+           //console.log(`BallsLengthAfter: ${numBalls}`);
+           //console.log(`ball.id: ${ball1.id}`);
+           //console.log(`ball.id: ${ball2.id}`);
+    }
+
+    // switch (true) {
+    //     case (ball1.style.borderRadius === ball2.style.borderRadius && 
+    //         ball1.style.background === ball2.style.background && 
+    //         ball1.id !== ball2.id):
+
+    //         ball1.remove();
+    //         ball2.remove();
+    //         removedList = [ball1.id, ball2.id];
+    //         const thirdBallRemoved = removeRandomBall(`${removedList}`);
+    //         removedList.push(thirdBallRemoved.id);
+    //         const thirdBallColor = thirdBallRemoved.style.background;
+    //         const fourthBallRemoved = matchFourthBall(thirdBallColor);
+    //         numBalls -= 4;
+    //         break;
+
+    //     case ( ball1.style.background === ball2.style.background &&
+    //         ball1.id !== ball2.id):
+
+    //         ball1.remove();
+    //         ball2.remove();
+    //         numBalls -= 2;
+    //         break;
+        
+       // case fish (ball1.classList.contains('fish') && 
+    //           (fish.style.background === "#2AA7FF")):
+
+    //     const targetColor = colors[Math.floor(Math.random() * colors.length)];
+    //     const matchingBalls = balls.filter(ball => ball.style.background === targetColor);
+    //     matchingBalls.forEach(ball => {
+    //         ball.remove();
+    //         numBalls--;
+    //     });
+    //     console.log(`Fish clicked. Color: ${targetColor}`);
+    //     console.log(`Removed ${matchingBalls.length} balls. BallsLength: ${numBalls}`);
+    //}
+    
     if (numBalls <= 0) {
         clearInterval(countDown);
         if (Mlevel === 6) {
@@ -129,14 +167,11 @@ function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
         const color = colors[colorIndex];
         let ball = document.createElement("div");
         ball.classList.add("ball");
-        // Add individual ID to each ball, so it will be identificable at clicking
-        ball.id =`ball-${i + 1}`;
+        ball.id =`${i + 1}`;
         ball.style.background = color;
-        // vw = viewer point witdh & vh = viewer point height 
         ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
         ball.style.bottom = `${Math.floor(Math.random() * 100)}vh`;
         ball.style.transform = `scale(${Math.random()})`;
-        //To manipulate the size of the balls, Random number between max=10 and min=3 --> Math.random() * (max - min + 1) + min
         ball.style.width = `${Math.random()*(10-3+1)+3}em`;
         ball.style.height = ball.style.width;
         ball.style.borderRadius = "100%";      // remove css border radious
