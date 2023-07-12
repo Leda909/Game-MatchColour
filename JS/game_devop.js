@@ -51,7 +51,7 @@ function removeRandomBall() {
 function matchColor(ball1, ball2) {
      if (ball1.style.borderRadius === ball2.style.borderRadius && 
          ball1.style.background === ball2.style.background && 
-        ball1.id !== ball2.id) {
+         ball1.id !== ball2.id) {
           //console.log(`BallsLengthBefore: ${numBalls}`);
            // Remove four balls
          ball1.remove();
@@ -71,7 +71,7 @@ function matchColor(ball1, ball2) {
            //console.log(`ball.color: ${ball2.style.background}`);
            //console.log(`BallsLengthAfter: ${numBalls}`);
      } else if ( ball1.style.background === ball2.style.background &&
-             ball1.id !== ball2.id) {
+                 ball1.id !== ball2.id) {
            //console.log(`BallsLengthBefore: ${numBalls}`);      
          ball1.remove();
          ball2.remove();
