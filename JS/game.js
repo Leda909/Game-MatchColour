@@ -17,47 +17,14 @@ function GenerateLevel (level) {
     };
 }
 
-// function removeRandomBall() {
-//     const randomIndex = Math.floor(Math.random() * balls.length);
-//     const removedBall = balls.splice(randomIndex, 1)[0];
-//     removedBall.remove();
-//     //numBalls--;
-//   }
-
 function matchColor(ball1, ball2) {
-    if (ball1.style.borderRadius === ball2.style.borderRadius &&
-        ball1.style.background === ball2.style.background && 
-        ball1.id !== ball2.id) {
-        // Remove four balls
-        console.log(`BallsLengthBefore: ${numBalls}`);
-        ball1.remove();
-        ball2.remove();
-        // removeRandomBall();
-        // removeRandomBall();
-        // numBalls -= 4;
-            // console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
-            // console.log(`ball.color: ${ball1.style.background}`);
-            // console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
-            // console.log(`ball.color: ${ball2.style.background}`);
-            console.log(`BallsLengthAfter: ${numBalls}`);
-    } else if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
+     if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
       console.log(`BallsLengthBefore: ${numBalls}`);
       ball1.remove();
       ball2.remove();
       numBalls = numBalls-2;
       console.log(`BallsLenghtAfter: ${numBalls}`);
-
-    } else if (ball1.classList.contains('fish') &&  ///// hogyan mondomm neki hogyha a halra kattint
-              (fish.style.background === "#2AA7FF")) {
-        const targetColor = colors[Math.floor(Math.random() * colors.length)];
-        const matchingBalls = balls.filter(ball => ball.style.background === targetColor);
-        matchingBalls.forEach(ball => {
-            ball.remove();
-            numBalls--;
-        });
-        console.log(`Fish clicked. Color: ${targetColor}`);
-        console.log(`Removed ${matchingBalls.length} balls. BallsLength: ${numBalls}`);
-    }
+    } 
     if (numBalls <= 0) {
         clearInterval(countDown);
         if (Mlevel === 6) {
@@ -91,8 +58,6 @@ function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
     let colors = ["#3CC157", "#2AA7FF"];
     console.log(`pPushColor: ${pPushColor}`);
     if (pPushColor !== undefined && pPushColor !== null) {
-        // Add this line to create the pPushColor array with one color
-        //pPushColor = Mcolors.slice(2, level + 1);
         colors.push(...pPushColor);
     }
     
