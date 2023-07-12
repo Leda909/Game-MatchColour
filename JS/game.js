@@ -32,9 +32,9 @@ function matchColor(ball1, ball2) {
         console.log(`BallsLengthBefore: ${numBalls}`);
         ball1.remove();
         ball2.remove();
-        removeRandomBall();
-        removeRandomBall();
-        numBalls -= 4;
+        // removeRandomBall();
+        // removeRandomBall();
+        // numBalls -= 4;
             // console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
             // console.log(`ball.color: ${ball1.style.background}`);
             // console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
