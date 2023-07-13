@@ -104,7 +104,7 @@ function matchColor(ball1, ball2) {
     //         numBalls -= 2;
     //         break;
         
-       // case fish (ball1.classList.contains('fish') && 
+       // if fish (ball1.classList.contains('fish') && 
     //           (fish.style.background === "#2AA7FF")):
 
     //     const targetColor = colors[Math.floor(Math.random() * colors.length)];
