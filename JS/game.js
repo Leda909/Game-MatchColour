@@ -85,9 +85,6 @@ function matchColor(ball1, ball2) {
           return; // Stop the game progression
         }
         let nextLevel = Mlevel + 1;
-        balls.forEach(ball => {
-            ball.remove();
-        });
         alert('Congratulations! You can move to level ' + (nextLevel) + '!');
         init(nextLevel);
       }    
@@ -100,7 +97,7 @@ function countDown() {
     if (currentTime == 0) {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
-        alert('Game over');
+        alert('Game over!');
         balls.forEach(ball => {
             ball.remove();
         });
@@ -145,7 +142,7 @@ function init(pLevel){
         document.body.append(ball);
     }
 
-    if ( pLevel<3 ) {
+    if ( Mlevel<3 ) {
         // Keyframes
         balls.forEach((elem, i, ra) => {
             elem.id = `ball-${i + 1}`;
@@ -183,7 +180,7 @@ function init(pLevel){
             });
     } else {
     // Fish.js from level 5 ------------//
-        if ( pLevel > 4) {
+        if ( Mlevel > 4) {
             // Create a <script> element for adding fish.js
             var script = document.createElement('script');
             script.src = 'JS/fish.js';
@@ -220,7 +217,7 @@ function init(pLevel){
         };
 
         // Random borderRadius from LEVEL 3 //
-        if ( pLevel > 2 ){
+        if ( Mlevel > 2 ){
             function changeBorderRadius(ball) {
                 const borderRadius = Math.random() < 0.5 ? "100%" : "0";
                  ball.style.borderRadius = borderRadius;
@@ -228,10 +225,10 @@ function init(pLevel){
             setInterval(() => changeBorderRadius(elem), Math.random() * 3000 + 1000);
         }
         // ---- Random Opacity from LEVEL 4 -------//
-        if ( pLevel > 3 ){animateOpacityChange(10000, 40);}
+        if ( Mlevel > 3 ){animateOpacityChange(10000, 40);}
         
         // ---- Random Colour changes from LEVEL 6 -------//
-        if ( pLevel > 5 ){
+        if ( Mlevel > 5 ){
             setInterval(() => {
                 balls.forEach((ball) => {
                     ball.style.background = getRandomColor();
