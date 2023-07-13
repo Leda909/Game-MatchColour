@@ -61,6 +61,6 @@ function swimFish(fish) {
 
 // Start the swim movement for each fish
 const fishes = document.querySelectorAll(".fish");
-fishes.forEach((fish) => {
-  swimFish(fish);
-});
+//fishes.forEach((fish) => {
+  //swimFish(fish);
+//});
