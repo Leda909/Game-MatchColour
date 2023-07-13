@@ -9,45 +9,74 @@ let MnumBalls = [18, 28, 40, 56, 74, 80];
 let McurrentTime = [30, 60, 120, 180, 220, 250];
 let Mcolors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
 let balls = [];
-// function GenerateLevel (level) {
-//     return {
-//         pLevel : level,
-//         pNumBalls : MnumBalls[level-1],
-//         pPushColor: Mcolors.slice(0, level),
-//         pCurrentTime : McurrentTime[level-1],
-//     };
-// }
 
-function matchColor(ball1, ball2) {
-    if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
+// Part of matchFour
+function matchFourthBall(thirdBallColor) {
+    const matchingBalls = balls.filter(
+       (ball) =>
+         ball.style.background === thirdBallColor && !removedList.includes(ball.id)
+    );
+    const fourthBallRemoved = matchingBalls[Math.floor(Math.random() * matchingBalls.length)];
+    fourthBallRemoved.remove();
+    return fourthBallRemoved;
+}
+
+function generateRandomIndex() {
+    let randomIndex = Math.floor(Math.random() * balls.length);
+    // console.log(`randomIndex: ${randomIndex}`);
+    // console.log(`removedList_1: ${removedList}`);
+    while (removedList.includes(`${randomIndex+1}`)) {
+        //Keep on guessing a random index while the random index guess is not in the removedList.
+        randomIndex = Math.floor(Math.random() * balls.length);
+    }
+    return randomIndex;
+}
+
+function removeRandomBall() {
+    //console.log(`removedList_2: ${removedList}`);
+    const randomIndex = generateRandomIndex();
+    const removedBall = balls.splice(randomIndex, 1)[0];
+    removedBall.remove();
+    return removedBall;
+}
+  
+function matchTwo(ball1, ball2){
+    if ( ball1.style.background === ball2.style.background &&
+        ball1.id !== ball2.id){
+
         ball1.remove();
         ball2.remove();
-        numBalls = numBalls-2;
-        console.log(`BallsLenght: ${numBalls}`);
-    } else if (ball1.style.borderRadius === ball2.style.borderRadius &&
-          ball1.style.background === ball2.style.background && 
-          ball1.id !== ball2.id) {
-          // Remove four balls
-          ball1.remove();
-          ball2.remove();
-          removeRandomBall();
-          removeRandomBall();
-          numBalls -= 4;
-              console.log(`ball.borderRadius: ${ball1.style.borderRadius}`);
-              console.log(`ball.color: ${ball1.style.background}`);
-              console.log(`ball.borderRadius: ${ball2.style.borderRadius}`);
-              console.log(`ball.color: ${ball2.style.background}`);
-              console.log(`BallsLength: ${numBalls}`);
-    } else if (ball1.classList.contains('fish') &&  ///// hogyan mondomm neki hogyha a halra kattint
-              (fish.style.background === "#2AA7FF")) {
-        const targetColor = colors[Math.floor(Math.random() * colors.length)];
-        const matchingBalls = balls.filter(ball => ball.style.background === targetColor);
-        matchingBalls.forEach(ball => {
-            ball.remove();
-            numBalls--;
-        });
-        console.log(`Fish clicked. Color: ${targetColor}`);
-        console.log(`Removed ${matchingBalls.length} balls. BallsLength: ${numBalls}`);
+        numBalls -= 2;
+        console.log("RemoveTwo");
+    }
+}
+
+function matchFour(ball1, ball2){
+    if (ball1.style.borderRadius === ball2.style.borderRadius && 
+        ball1.style.background === ball2.style.background && 
+        ball1.id !== ball2.id){
+
+        ball1.remove();
+        ball2.remove();
+        removedList = [ball1.id, ball2.id];
+        const thirdBallRemoved = removeRandomBall(`${removedList}`);
+        removedList.push(thirdBallRemoved.id);
+        const thirdBallColor = thirdBallRemoved.style.background;
+        const fourthBallRemoved = matchFourthBall(thirdBallColor);
+        numBalls -= 4;
+        console.log("RemoveFour");
+        return true;
+        } 
+    return false;
+}
+// If I cklick on the same colour after each other ==> clear them out, if form also match 4 elem
+function matchColor(ball1, ball2) {
+    if(Mlevel>2){
+        if (!matchFour(ball1, ball2)){
+            matchTwo(ball1, ball2);
+        };
+    } else {
+        matchTwo(ball1, ball2);
     }
     if (numBalls <= 0) {
         clearInterval(countDown);
@@ -80,10 +109,10 @@ function countDown() {
 }  
 
 function init(pLevel){
-    level = pLevel;
-    numBalls = MnumBalls[level-1];
-    let colors = Mcolors.slice(0,level+1);
-    currentTime = McurrentTime[level-1];    
+    Mlevel = pLevel;
+    numBalls = MnumBalls[Mlevel-1];
+    let colors = Mcolors.slice(0,Mlevel+1);
+    currentTime = McurrentTime[Mlevel-1];    
     let clickCount = 0;
     let ballPrevious = null;
     // balls = [];
@@ -106,7 +135,7 @@ function init(pLevel){
         ball.style.width = `${Math.random()*(10-3+1)+3}em`;
         ball.style.height = ball.style.width;
         ball.style.borderRadius = "100%";      // remove css border radious
-        if (pLevel > 4) {
+        if (Mlevel > 4) {
             ball.style.opacity = Math.random() < 0.2 ? "0.2" : "0.99";  //aproximetly 1/3 of balls get more opacity
         } else {
             ball.style.opacity = "0.95";
@@ -153,6 +182,13 @@ function init(pLevel){
             });
             });
     } else {
+    // Fish.js from level 5 ------------//
+        if ( pLevel > 4) {
+            // Create a <script> element for adding fish.js
+            var script = document.createElement('script');
+            script.src = 'JS/fish.js';
+            document.body.appendChild(script);
+        }    
     // Keyframes
         balls.forEach((elem, i, ra) => {
         elem.id = `ball-${i + 1}`;
@@ -193,13 +229,7 @@ function init(pLevel){
         }
         // ---- Random Opacity from LEVEL 4 -------//
         if ( pLevel > 3 ){animateOpacityChange(10000, 40);}
-        // Fish.js from level 5 ------------//
-        if ( pLevel > 4) {
-            // Create a <script> element for adding fish.js
-            var script = document.createElement('script');
-            script.src = 'JS/fish.js';
-            document.body.appendChild(script);
-        }
+        
         // ---- Random Colour changes from LEVEL 6 -------//
         if ( pLevel > 5 ){
             setInterval(() => {
