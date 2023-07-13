@@ -7,15 +7,16 @@ let Mlevel = 1;
 let numBalls = null;
 let MnumBalls = [18, 28, 40, 56, 74, 80];
 let McurrentTime = [30, 60, 120, 180, 220, 250];
-let Mcolors = [ "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
-function GenerateLevel (level) {
-    return {
-        pLevel : level,
-        pNumBalls : MnumBalls[level-1],
-        pPushColor: Mcolors.slice(0, level),
-        pCurrentTime : McurrentTime[level-1],
-    };
-}
+let Mcolors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
+let balls = [];
+// function GenerateLevel (level) {
+//     return {
+//         pLevel : level,
+//         pNumBalls : MnumBalls[level-1],
+//         pPushColor: Mcolors.slice(0, level),
+//         pCurrentTime : McurrentTime[level-1],
+//     };
+// }
 
 function matchColor(ball1, ball2) {
     if (ball1.style.background === ball2.style.background && ball1.id !== ball2.id) {
@@ -54,10 +55,12 @@ function matchColor(ball1, ball2) {
           alert('You won!!! You are the best!');
           return; // Stop the game progression
         }
-        alert('Congratulations! You can move to level ' + (Mlevel + 1) + '!');
-        Mlevel = Mlevel + 1;
-        let levelObject = GenerateLevel(Mlevel);
-        init(levelObject.pNumBalls, levelObject.pPushColor, levelObject.pCurrentTime, levelObject.pLevel);
+        let nextLevel = Mlevel + 1;
+        balls.forEach(ball => {
+            ball.remove();
+        });
+        alert('Congratulations! You can move to level ' + (nextLevel) + '!');
+        init(nextLevel);
       }    
 }
 
@@ -69,31 +72,22 @@ function countDown() {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
         alert('Game over');
-        // Refresh the page after the alert
-        window.location.reload();
-        //window.onload=init();
-        // Mlevel = 1; // Reset the level to 1
-        // let levelObject = GenerateLevel(Mlevel);
-        // init(levelObject.pNumBalls, levelObject.pPushColor, levelObject.pCurrentTime, levelObject.pLevel);
+        balls.forEach(ball => {
+            ball.remove();
+        });
+        init(1);
     }
 }  
 
-function init(pNumBalls, pPushColor, pCurrentTime, pLevel){
-    numBalls = pNumBalls;
-    currentTime = pCurrentTime;
+function init(pLevel){
     level = pLevel;
-    let colors = ["#3CC157", "#2AA7FF"];
-    console.log(`pPushColor: ${pPushColor}`);
-    if (pPushColor !== undefined && pPushColor !== null) {
-        // Add this line to create the pPushColor array with one color
-        //pPushColor = Mcolors.slice(2, level + 1);
-        colors.push(...pPushColor);
-    }
-    
+    numBalls = MnumBalls[level-1];
+    let colors = Mcolors.slice(0,level+1);
+    currentTime = McurrentTime[level-1];    
     let clickCount = 0;
     let ballPrevious = null;
-    const balls = [];
-    
+    // balls = [];
+
     //create my balls
     for (let i = 0; i < numBalls; i++) {
         //Create x amount of elements from which even amount of element get the same background color
