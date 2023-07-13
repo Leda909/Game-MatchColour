@@ -16,9 +16,17 @@ function matchFourthBall(thirdBallColor) {
        (ball) =>
          ball.style.background === thirdBallColor && !removedList.includes(ball.id)
     );
+    if (matchingBalls.length > 0) {
     const fourthBallRemoved = matchingBalls[Math.floor(Math.random() * matchingBalls.length)];
-    fourthBallRemoved.remove();
+        //console.log(`Fourth Ball ID: ${fourthBallRemoved.id}`);
+        fourthBallRemoved.remove();
+        //console.log(`numBallsFourthMatchBefore: ${numBalls}`);
+        numBalls--;
+        //console.log(`numBallsFourthMatchAfter: ${numBalls}`);
     return fourthBallRemoved;
+  }
+  console.log(`matchFourthBall: value null`);
+  return null;
 }
 
 function generateRandomIndex() {
@@ -37,17 +45,20 @@ function removeRandomBall() {
     const randomIndex = generateRandomIndex();
     const removedBall = balls.splice(randomIndex, 1)[0];
     removedBall.remove();
+    numBalls--;
+    //console.log(`numBallsRemoveRandom: ${numBalls}`);
     return removedBall;
 }
   
 function matchTwo(ball1, ball2){
     if ( ball1.style.background === ball2.style.background &&
         ball1.id !== ball2.id){
-
+        //console.log(`numBallsTWO_Before: ${numBalls}`);
         ball1.remove();
         ball2.remove();
         numBalls -= 2;
-        console.log("RemoveTwo");
+        //console.log(`numBallsTWO_After: ${numBalls}`);
+        //console.log("RemoveTwo");
     }
 }
 
@@ -55,7 +66,7 @@ function matchFour(ball1, ball2){
     if (ball1.style.borderRadius === ball2.style.borderRadius && 
         ball1.style.background === ball2.style.background && 
         ball1.id !== ball2.id){
-
+        //console.log(`numBallsFOUR_Before: ${numBalls}`);
         ball1.remove();
         ball2.remove();
         removedList = [ball1.id, ball2.id];
@@ -63,8 +74,9 @@ function matchFour(ball1, ball2){
         removedList.push(thirdBallRemoved.id);
         const thirdBallColor = thirdBallRemoved.style.background;
         const fourthBallRemoved = matchFourthBall(thirdBallColor);
-        numBalls -= 4;
-        console.log("RemoveFour");
+        numBalls -= 2;
+        //console.log(`numBallsFOUR_After: ${numBalls}`);
+        //console.log("RemoveFour");
         return true;
         } 
     return false;
@@ -74,9 +86,11 @@ function matchColor(ball1, ball2) {
     if(Mlevel>2){
         if (!matchFour(ball1, ball2)){
             matchTwo(ball1, ball2);
+            //console.log(`numballsIF: ${numBalls}`);
         };
     } else {
         matchTwo(ball1, ball2);
+        //console.log(`numballsELSE: ${numBalls}`);
     }
     if (numBalls <= 0) {
         clearInterval(countDown);
@@ -85,6 +99,9 @@ function matchColor(ball1, ball2) {
           return; // Stop the game progression
         }
         let nextLevel = Mlevel + 1;
+        balls.forEach(ball => {
+            ball.remove();
+        });
         alert('Congratulations! You can move to level ' + (nextLevel) + '!');
         init(nextLevel);
       }    
@@ -97,11 +114,13 @@ function countDown() {
     if (currentTime == 0) {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
-        alert('Game over!');
-        balls.forEach(ball => {
-            ball.remove();
-        });
-        init(1);
+        alert('Game over');
+        // balls.forEach(ball => {
+        //     ball.remove();
+        // });
+        // Fish.remove();
+        // init(1);
+        window.location.reload();
     }
 }  
 
@@ -122,7 +141,7 @@ function init(pLevel){
         let ball = document.createElement("div");
         ball.classList.add("ball");
         // Add individual ID to each ball, so it will be identificable at clicking
-        ball.id =`ball-${i + 1}`;
+        ball.id =`${i + 1}`;
         ball.style.background = color;
         // vw = viewer point witdh & vh = viewer point height 
         ball.style.left = `${Math.floor(Math.random() * 100)}vw`;
@@ -179,7 +198,7 @@ function init(pLevel){
             });
             });
     } else {
-    // Fish.js from level 5 ------------//
+        // Fish.js from level 5 ------------//
         if ( Mlevel > 4) {
             // Create a <script> element for adding fish.js
             var script = document.createElement('script');
@@ -188,7 +207,7 @@ function init(pLevel){
         }    
     // Keyframes
         balls.forEach((elem, i, ra) => {
-        elem.id = `ball-${i + 1}`;
+        elem.id = `${i + 1}`;
 
         let to = {
             x: Math.random() * (i % 2 === 0 ? -12 : 12),
@@ -255,17 +274,18 @@ function init(pLevel){
 
         let katt = elem.addEventListener("click", () => {
         clickCount++;
-        console.log(`Click count: ${clickCount}`);
+        //console.log(`Click count: ${clickCount}`);
         
         if (clickCount%2 === 0){
             console.log('EvenClick');
             matchColor(ballPrevious,elem);
         }
         ballPrevious = elem;
-        console.log(`Clicked ball ID: ${elem.id}`);
+        //console.log(`Clicked ball ID: ${elem.id}`);
         });
         });
     }
 
     countDownTimerId = setInterval(countDown, 1000);
 }
+
