@@ -225,7 +225,7 @@ function init(pLevel){
                 const borderRadius = Math.random() < 0.5 ? "100%" : "0";
                  ball.style.borderRadius = borderRadius;
             } 
-            setInterval(() => changeBorderRadius(elem), Math.random() * 3000 + 1000);
+            setInterval(() => changeBorderRadius(elem), Math.random() * 5000 + 3000);
         }
         // ---- Random Opacity from LEVEL 4 -------//
         if ( pLevel > 3 ){animateOpacityChange(10000, 40);}
@@ -248,7 +248,7 @@ function init(pLevel){
             { transform: `translate(${to.x}rem, ${to.y}rem)` }
             ],
             {
-            duration: fasterColor ? (Math.random() + 1) * 5000 : (Math.random() + 1) * 2000, // random duration for fast or regular movement
+            duration: fasterColor ? (Math.random() + 1) * 8000 : (Math.random() + 1) * 5000, // random duration for fast or regular movement
             direction: "alternate",
             fill: "both",
             iterations: Infinity,
