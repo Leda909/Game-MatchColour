@@ -4,11 +4,37 @@
   <meta charset="UTF-8">
   <title>Match Colour Game</title>
   <link rel="stylesheet" href="style.css"></link>
+  <script>
+      // Function to display the popup
+      function displayModal() {
+          const modal = document.getElementById("modal");
+          modal.style.display = "block"; // display modal
+          const startButton = document.getElementById("start-button"); // Event listener to modal button
+          startButton.addEventListener("click", () => {
+              modal.style.display = "none";
+              countDown();
+              init(1); // ==> onload init ==> Hide the modal and start the game
+          });
+      } 
+
+      document.addEventListener("DOMContentLoaded", () => {
+        displayModal();  // Display the modal when the page is loaded
+      });
+  </script>
 </head>
-<body onload="init(10, null, 30, 1);">
-  <h2>Time Left:</h2>
-  <h2 id="time-left"> </h2>
-  <div id="fish-container"></div>
+<body>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2>MATCH COLOURS</h2>
+            <img src="rules.png" alt="game rules" style="">
+            <button id="start-button">Start Game</button>
+        </div>
+    </div>
+    <div class="timer">
+      <h1>Time Left:</h1>
+      <h1 id="time-left"> </h1>
+    </div>
+    <div id="fish-container"></div>
 
   <script src="JS/game.js" charset="utf-8"></script>
 </body>
