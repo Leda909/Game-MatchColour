@@ -13,7 +13,7 @@
           startButton.addEventListener("click", () => {
               modal.style.display = "none";
               countDown();
-              init(1); // ==> onload init ==> Hide the modal and start the game
+              init(5); // ==> onload init ==> Hide the modal and start the game
           });
       } 
 
@@ -25,17 +25,15 @@
 <body>
     <div id="modal" class="modal">
         <div class="modal-content">
-            <h2>MATCH COLOURS</h2>
-            <img src="rules.png" alt="game rules" style="">
+            <h2>Game Description</h2>
+            <p>Story + rules.</p>
             <button id="start-button">Start Game</button>
         </div>
     </div>
-    <div class="timer">
-      <h1>Time Left:</h1>
-      <h1 id="time-left"> </h1>
-    </div>
-    <div id="fish-container"></div>
+  <h2>Time Left:</h2>
+  <h2 id="time-left"> </h2>
+  <div id="fish-container"></div>
 
-  <script src="JS/game.js" charset="utf-8"></script>
+  <script src="JS/game_copy.js" charset="utf-8"></script>
 </body>
 </html>

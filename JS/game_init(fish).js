@@ -1,4 +1,6 @@
 //Building together the levels ==> init() function onload by moving further levels
+const fishContainer = document.getElementById("fish-container");
+//let fish = null;
 const timeLeft = document.querySelector('#time-left');
 let countDownTimerId = null;
 let currentTime = null;
@@ -9,6 +11,11 @@ let MnumBalls = [18, 28, 40, 56, 74, 80];
 let McurrentTime = [30, 60, 120, 180, 220, 250];
 let Mcolors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
 let balls = [];
+ 
+function handleFishClick() {
+    console.log("Fish clicked!");
+    // Perform any actions you want when the fish is clicked
+}
 
 // Part of matchFour
 function matchFourthBall(thirdBallColor) {
@@ -23,7 +30,7 @@ function matchFourthBall(thirdBallColor) {
         //console.log(`numBallsFourthMatchBefore: ${numBalls}`);
         numBalls--;
         //console.log(`numBallsFourthMatchAfter: ${numBalls}`);
-        console.log(`Ball4 Fourth removed: ${fourthBallRemoved.id}`);
+        //console.log(`Ball4 Fourth removed: ${fourthBallRemoved.id}`);
     return fourthBallRemoved;
   }
   console.log(`matchFourthBall: value null`);
@@ -48,7 +55,7 @@ function removeRandomBall() {
     removedBall.remove();
     numBalls--;
     //console.log(`numBallsRemoveRandom: ${numBalls}`);
-    console.log(`Ball4 Third removed: ${removedBall.id}`);
+    //console.log(`Ball4 Third removed: ${removedBall.id}`);
     return removedBall;
 }
   
@@ -58,8 +65,8 @@ function matchTwo(ball1, ball2){
         //console.log("numBallsTWO_Before: ${numBalls}");
         ball1.remove();
         ball2.remove();
-        console.log(`Ball2 First removed: ${ball1.id}`);
-        console.log(`Ball2 Second removed: ${ball2.id}`);
+        //console.log(`Ball2 First removed: ${ball1.id}`);
+        //console.log(`Ball2 Second removed: ${ball2.id}`);
         numBalls -= 2;
         //console.log("numBallsTWO_After: ${numBalls}");
         //console.log("RemoveTwo");
@@ -73,8 +80,8 @@ function matchFour(ball1, ball2){
         //console.log("numBallsFOUR_Before: ${numBalls}");
         ball1.remove();
         ball2.remove();
-        console.log(`Ball4 First removed: ${ball1.id}`);
-        console.log(`Ball4 Second removed: ${ball2.id}`);
+        //console.log(`Ball4 First removed: ${ball1.id}`);
+        //console.log(`Ball4 Second removed: ${ball2.id}`);
         removedList = [ball1.id, ball2.id];
         const thirdBallRemoved = removeRandomBall(`${removedList}`);
         removedList.push(thirdBallRemoved.id);
@@ -109,6 +116,9 @@ function matchColor(ball1, ball2) {
         balls.forEach(ball => {
             ball.remove();
         });
+        if (fish) {
+            fish.remove();
+          }
         alert('Congratulations! You can move to level ' + (nextLevel) + '!');
         init(nextLevel);
       }    
@@ -125,7 +135,7 @@ function countDown() {
         // balls.forEach(ball => {
         //     ball.remove();
         // });
-        // Fish.remove();
+        // fish.remove();
         // init(1);
         window.location.reload();
     }
@@ -206,13 +216,22 @@ function init(pLevel){
             });
     } else {
         // Fish.js from level 5 ------------//
-        // if ( Mlevel > 4) {
-        //     // Create a <script> element for adding fish.js
-        //     var script = document.createElement('script');
-        //     script.src = 'JS/fish.js';
-        //     document.body.appendChild(script);
-        // }    
-    // Keyframes
+        if (Mlevel === 5 ) {
+            // Create a <script> element for adding fish_copy.js
+            var script = document.createElement('script');
+            script.src = 'JS/fish2.js';
+            script.onload = function() {
+              const fishContainer = document.getElementById("fish-container");
+              const fish = createFish();
+              fishContainer.appendChild(fish);
+              
+              //swimFish(fish, fishContainer);
+              // Add event listener to the fish element
+              fish.addEventListener("click", handleFishClick);
+            };
+            document.head.appendChild(script);
+        }
+        // Keyframes
         balls.forEach((elem, i, ra) => {
         elem.id = `${i + 1}`;
 
@@ -238,7 +257,7 @@ function init(pLevel){
         } // ------ End of Opacity ------------
     
         // Function to generate a random color
-        const getRandomColor = (ball) => {
+        const getRandomColor = () => {
             return colors[Math.floor(Math.random() * colors.length)];
         };
 

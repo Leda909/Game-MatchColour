@@ -1,8 +1,5 @@
-// Create fish elements and add to the container
-const fishContainer = document.getElementById("fish-container");
-let colors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
-
-for (let i = 0; i < 1; i++) {
+function createFish() {
+  const fishContainer = document.getElementById("fish-container");
   const fish = document.createElement("div");
   fish.classList.add("fish");
   fish.innerHTML = `
@@ -13,10 +10,31 @@ for (let i = 0; i < 1; i++) {
     <div class="eye"></div>
   `;
   fishContainer.appendChild(fish);
+  return fish
+  //return fishContainer.querySelector(".fish");
 }
+
+// function createFish() {
+//   const fishContainer = document.getElementById("fish-container");
+//   for (let i = 0; i < 1; i++) {
+//     const fish = document.createElement("div");
+//     fish.classList.add("fish");
+//     fish.innerHTML = `
+//       <div class="fins left-fin"></div>
+//       <div class="fins right-fin"></div>
+//       <div class="body"></div>
+//       <div class="tail"></div>
+//       <div class="eye"></div>
+//     `;
+//     fishContainer.appendChild(fish);
+//   }
+//   return fishContainer.querySelector(".fish");
+// }
+
 
 // Function to change the background color of all elements within the fish-container
 function changeBackgroundColor() {
+  let colors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
   const fishContainer = document.getElementById("fish-container");
   const fishElements = fishContainer.querySelectorAll("div:not(.eye)");
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
@@ -31,7 +49,7 @@ function animateBackgroundChange() {
   setTimeout(animateBackgroundChange, randomInterval);
 }
 // Start the animation
-animateBackgroundChange();
+//animateBackgroundChange();
 
 // Function to generate random values
 function getRandom(min, max) {
@@ -39,7 +57,7 @@ function getRandom(min, max) {
 }
 
 // Function to move fish randomly on the screen
-function swimFish(fish) {
+function swimFish(fish, fishContainer) {
   const containerWidth = fishContainer.offsetWidth;
   const containerHeight = fishContainer.offsetHeight;
   const fishWidth = fish.offsetWidth;
@@ -56,11 +74,16 @@ function swimFish(fish) {
   fish.style.zIndex = randomNumber + "px";
 
   // Schedule the next swim movement
-  setTimeout(() => swimFish(fish), getRandom(1000, 200));
+  setTimeout(() => swimFish(fish, fishContainer), getRandom(2000, 500));
+  animateBackgroundChange();
+  const fishes = document.querySelectorAll(".fish");
+  fishes.forEach((fish) => {
+  swimFish(fish, fishContainer);
+  });
 }
 
 // Start the swim movement for each fish
-const fishes = document.querySelectorAll(".fish");
-fishes.forEach((fish) => {
-  swimFish(fish);
-});
+
+const fish = createFish();
+const fishContainer = document.getElementById("fish-container");
+swimFish(fish, fishContainer);
