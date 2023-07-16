@@ -205,6 +205,13 @@ function init(pLevel){
             });
             });
     } else { 
+        // Fish.js from level 5 ------------//
+        // if ( Mlevel > 4) {
+        //     // Create a <script> element for adding fish.js
+        //     var script = document.createElement('script');
+        //     script.src = 'JS/fish.js';
+        //     document.body.appendChild(script);
+        // } 
     // Keyframes
         balls.forEach((elem, i, ra) => {
         elem.id = `${i + 1}`;
