@@ -140,15 +140,17 @@ function checkNumBalls() {
     if (numBalls <= 0) {
         clearInterval(countDown);
         if (Mlevel === 6) {
-          alert('You won!!! You are the best!');
-          return; // Stop the game progression
+            balls.forEach(ball => { ball.remove(); });
+            fish.remove(); // clear out the last remainings
+            alert('You won!!! You are the best!');
+            return; // Stop the game progression
         }
-        let nextLevel = Mlevel + 1;
-        balls.forEach(ball => {
-            ball.remove();
-        });
-        alert('Congratulations! You can move to level ' + (nextLevel) + '!');
-        init(nextLevel);
+            balls.forEach(ball => {
+                ball.remove();
+            });
+            let nextLevel = Mlevel + 1;
+            alert('Congratulations! You can move to level ' + (nextLevel) + '!');
+            init(nextLevel);
     }    
 }
 
