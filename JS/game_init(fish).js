@@ -1,6 +1,6 @@
 //Building together the levels ==> init() function onload by moving further levels
 const fishContainer = document.getElementById("fish-container");
-//let fish = null;
+let fish = null;
 const timeLeft = document.querySelector('#time-left');
 let countDownTimerId = null;
 let currentTime = null;

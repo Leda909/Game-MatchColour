@@ -29,7 +29,8 @@ h2{
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  background-color: rgb(50, 27, 108);
+  z-index: 1;
 }
 
 /* Modal Content */
@@ -37,16 +38,16 @@ h2{
   background-color: #fff;
   margin: 2% auto;
   padding: 20px;
-  width: 40%;
+  width: 60%;
   text-align: center;
   height: 700px;
 }
 
 .modal-content img {
-  width: 300px;
+  width: 700px;
   display: block;
   align-items: center;
-  margin: 40px auto;
+  margin: 30px auto 10px auto;
 }
 
 /* Modal Button */
@@ -70,7 +71,7 @@ h2{
   position: absolute;
   border-radius: 50%;
   background-color: blue;
-  top: -150px;
+  top: -100px;
   left: 100px;
 }
 
@@ -151,4 +152,243 @@ h2{
 }
 .right-fin {
   animation: right-finSwim 2s ease-in-out infinite;
+}
+
+/* ----- CAT ELEMENT ------*/
+.cat {
+  width: 150px;
+  height: 200px;
+  background-color: #3b2712;
+  position: absolute;
+  bottom: 10px;
+  right: 50px;
+  border-radius: 80%;
+  opacity: 80%;
+  z-index: -20;
+}
+
+.cat .head {
+  width: 110px;
+  height: 110px;
+  background-color: #3b2712;
+  border-radius: 50%;
+  position: absolute;
+  top: -90px;
+  right: 20px;
+}
+
+.cat .left-ear {
+  width: 60px;
+  height: 55px;
+  background-color: #3b2712;
+  position: absolute;
+  top: -100px;
+  right: 70px;
+  transform: rotate(-45deg);
+  transform-origin: bottom left;
+}
+
+.cat .right-ear {
+  width: 60px;
+  height: 55px;
+  background-color: #3b2712;
+  position: absolute;
+  top: -100px;
+  right: 20px;
+  transform: rotate(45deg);
+  transform-origin: bottom right;
+}
+
+.cat .left-inear {
+  width: 40px;
+  height: 35px;
+  background-color: pink;
+  position: absolute;
+  top: -95px;
+  transform: rotate(-45deg);
+  right: 100px;
+}
+
+.cat .right-inear {
+  width: 40px;
+  height: 35px;
+  background-color: pink;
+  position: absolute;
+  top: -95px;
+  transform: rotate(-75deg);
+  right: 20px;
+}
+
+.cat .nose {
+  width: 20px;
+  height: 20px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  top: -45px;
+  right: 65px;
+}
+
+.cat .left-eye {
+  width: 12px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: 40px;
+  top: -70px;
+  transform: translate(0%, 0%) rotate(140deg);
+}
+
+.cat .right-eye {
+  width: 12px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  position: absolute;
+  top: -50px;
+  left: 95px;
+  top: -70px;
+  transform: translate(0%, 0%) rotate(-140deg);
+}
+
+.cat .left-iris {
+  width: 10px;
+  height: 16px;
+  background-color: green;
+  border-radius: 50%;
+  position: absolute;
+  top: -62px;
+  left: 42px;
+}
+
+.cat .right-iris {
+  width: 10px;
+  height: 16px;
+  background-color: green;
+  border-radius: 50%;
+  position: absolute;
+  top: -62px;
+  right: 45px;
+}
+
+.cat .jaw {
+  width: 55px;
+  height: 50px;
+  background-color: pink;
+  border-radius: 50%;
+  position: absolute;
+  top: -40px;
+  left: 48px;
+}
+
+.cat .mount {
+  width: 10px;
+  height: 15px;
+  background-color: red;
+  position: absolute;
+  top: -18px;
+  left: 70px;
+}
+
+.cat .left-whisker1 {
+  top: -36px;
+  left: 15px;
+  transform: rotate(30deg);
+  width: 50px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.cat .left-whisker2 {
+  top: -20px;
+  left: 12px;
+  width: 50px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.cat .left-whisker3 {
+  top: -4px;
+  left: 16px;
+  transform: rotate(-30deg);
+  width: 50px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.cat .right-whisker1 {
+  top: -35px;
+  right: 15px;
+  transform: rotate(-30deg);
+  width: 50px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.cat .right-whisker2 {
+  top: -20px;
+  right: 12px;
+  width: 50px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.cat .right-whisker3 {
+  top: -4px;
+  right: 15px;
+  transform: rotate(30deg);
+  width: 50px;
+  height: 2px;
+  background-color: black;
+  position: absolute;
+}
+
+.cat .cattail {
+  width: 150px;
+  height: 30px;
+  background-color: #3b2712;
+  position: absolute;
+  top: 80px;
+  left: -120px;
+  transform: rotate(30deg);
+  border-radius: 50% 50% 0 0;
+}
+
+@keyframes ramble-animation {
+  0% { transform: translate(0, 0) rotate(0); }
+  20% { transform: translate(10px, -5px) rotate(-5deg); }
+  40% { transform: translate(-5px, 8px) rotate(5deg); }
+  60% { transform: translate(8px, -5px) rotate(-3deg); }
+  80% { transform: translate(-3px, 5px) rotate(2deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
+.cat {
+  animation: ramble-animation 6s ease-in-out infinite;
+}
+
+.roof{
+  margin: auto;
+  width: 700px;
+  height: 260px;
+  border: 2px solid rgba(60, 42, 104, 0.344);
+  background-color: #28474e12;
+  clip-path: polygon(26% 0%, 74% 0%, 100% 100%, 0% 100%);
+  z-index: -50;
+
+}
+
+.house {
+  margin: auto;
+  width: 700px;
+  height: 430px;
+  border: 2px solid rgba(60, 42, 104, 0.344);
+  z-index: -50;
 }
