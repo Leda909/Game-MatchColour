@@ -73,6 +73,7 @@ h2{
   background-color: blue;
   top: -100px;
   left: 100px;
+  z-index: 5;
 }
 
 .body {
