@@ -7,8 +7,9 @@ The rule is very simplpe, just clear out the screan before time runs out. Click 
 Remove function will also change:
     - If match two color ==> remove two elements
     - If match two color && form ==> remove four elements
-    - If you can feed the cat with blue fish ==> remove every elements which is X colored ==> this one is still under construction.
+    - If you can feed the cat with blue fish ==> remove every elements which is randomly choosen colored
 
 Futher plan:
-    - synchronize and unit test specifically on matchFourthBall() ==> in Debugs the code runs accuretly, acas removes balls, but when it should run real speed some balls remain on the screen despite balls array get empty, and also numBalls accuretly counted
-    - adding the last remove function, by keeping the codes of the animated elements in another js file and import into game.js.
+    - synchronize && unit test specifically on matchFourthBall() ==> according console.log and Debugs the code runs accuretly, acas removes balls from screen, but when it run in real speed some balls remain on the screen despite balls array get empty, and also numBalls accuretly get 0.
+
+init() function handle the different levels, by pLevel parameter. => There are 6 Levels.
