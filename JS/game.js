@@ -9,8 +9,41 @@ let MnumBalls = [18, 28, 40, 56, 74, 80];
 let McurrentTime = [30, 60, 120, 180, 220, 250];
 let Mcolors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
 let balls = [];
+let fish = null;
 
-// Part of matchFour
+function hexToRgb(hex) {
+    // Remove the # character if present
+    hex = hex.replace("#", "");
+    // Convert the hex value to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    // Return the RGB value as a string
+    console.log(`rgb(${r}, ${g}, ${b})`);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
+function handleFishClick(fish) {
+    console.log("Fish clicked!");
+    console.log(fish.style.background === hexToRgb("#2AA7FF"));
+    console.log(fish.style.background === "rgb(42, 167, 255)");
+    if (fish.style.background === hexToRgb("#2AA7FF")) {
+        console.log("Fish clicked after!");
+        //const targetColor = hexToRgb("#ff5050");
+        const targetColor = hexToRgb(Mcolors[Math.floor(Math.random() * Mcolors.length)]);
+        const matchingFishBalls = balls.filter(ball => ball.style.background === targetColor);
+        matchingFishBalls.forEach(ball => {
+            ball.remove();
+            numBalls--;
+            console.log(`FishClick removedBallID: ${ball.id}`);
+            console.log(`FishClick_numBalls: ${numBalls}`);
+        });
+        console.log(`Fish clicked. Color: ${targetColor}`);
+    }
+    checkNumBalls();
+}
+
+// ---- Part of matchFour ===> the Fourth Ball Removal ---
 function matchFourthBall(thirdBallColor) {
     const matchingBalls = balls.filter(
        (ball) =>
@@ -98,7 +131,12 @@ function matchColor(ball1, ball2) {
         matchTwo(ball1, ball2);
         //console.log(`numballsELSE: ${numBalls}`);
     }
-    //if (balls.length === 0) {
+    checkNumBalls();
+}
+
+function checkNumBalls() {
+    console.log(`checkNumBalls numBalls: ${numBalls}`);
+    //if (balls.length === 0)
     if (numBalls <= 0) {
         clearInterval(countDown);
         if (Mlevel === 6) {
@@ -111,8 +149,50 @@ function matchColor(ball1, ball2) {
         });
         alert('Congratulations! You can move to level ' + (nextLevel) + '!');
         init(nextLevel);
-      }    
+    }    
 }
+
+// Create the cat container
+const catContainer = document.createElement("div");
+catContainer.classList.add("cat");
+
+// Create the cat elements array of objects
+const elements = [
+  { class: "left-ear", clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" },
+  { class: "right-ear", clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" },
+  { class: "left-inear", clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" },
+  { class: "right-inear", clipPath: "polygon(50% 0%, 0% 100%, 100% 100%)" },
+  { class: "head", borderRadius: "50%" },
+  { class: "left-eye" },
+  { class: "left-iris" },
+  { class: "right-eye" },
+  { class: "right-iris" },
+  { class: "jaw", borderRadius: "50%" },
+  { class: "mount", borderRadius: "50%" },
+  { class: "left-whisker1" },
+  { class: "left-whisker2" },
+  { class: "left-whisker3" },
+  { class: "right-whisker1" },
+  { class: "right-whisker2" },
+  { class: "right-whisker3" },
+  { class: "nose", borderRadius: "50%" },
+  { class: "cattail", borderRadius: "50% 50% 0 0" },
+];
+
+// Append the cat elements to the cat container
+elements.forEach((element) => {
+  const catElement = document.createElement("div");
+  catElement.classList.add(element.class);
+  if (element.clipPath) {
+    catElement.style.clipPath = element.clipPath;
+  }
+  if (element.borderRadius) {
+    catElement.style.borderRadius = element.borderRadius;
+  }
+  catContainer.appendChild(catElement);
+});
+
+document.body.appendChild(catContainer);
 
 function countDown() {
     currentTime--;
@@ -161,7 +241,7 @@ function init(pLevel){
         if (Mlevel > 4) {
             ball.style.opacity = Math.random() < 0.2 ? "0.2" : "0.99";  //aproximetly 1/3 of balls get more opacity
         } else {
-            ball.style.opacity = "0.95";
+            ball.style.opacity = "1";
         }
         
         balls.push(ball);
@@ -204,14 +284,70 @@ function init(pLevel){
             //console.log(`Clicked ball ID: ${elem.id}`);
             });
             });
-    } else { 
-        // Fish.js from level 5 ------------//
-        // if ( Mlevel > 4) {
-        //     // Create a <script> element for adding fish.js
-        //     var script = document.createElement('script');
-        //     script.src = 'JS/fish.js';
-        //     document.body.appendChild(script);
-        // } 
+    } else {
+        // CreateFish element from level 5 ------------//
+        if ( Mlevel === 5) {
+            const fishContainer = document.getElementById("fish-container");
+            for (let i = 0; i < 1; i++) {
+                const fish = document.createElement("div");
+                fish.classList.add("fish");
+                fish.innerHTML = `
+                  <div class="fins left-fin"></div>
+                  <div class="fins right-fin"></div>
+                  <div class="body"></div>
+                  <div class="tail"></div>
+                  <div class="eye"></div>
+                `;
+                fishContainer.appendChild(fish);
+            }
+              
+            fish = fishContainer.querySelector(".fish");
+              
+            // Function to change the background color of all elements within the fish-container
+            function changeBackgroundColor() {
+                const fishContainer = document.getElementById("fish-container");
+                const fishElements = fishContainer.querySelectorAll("div:not(.eye)");
+                //let randomFishColor = "#2AA7FF";
+                let randomFishColor = Mcolors[Math.floor(Math.random() * Mcolors.length)];
+                fishElements.forEach((fish) => {
+                    fish.style.background = randomFishColor;
+                });
+            }
+            // Call the changeBackgroundColor function every random interval
+            function animateBackgroundChange() {
+                const randomInterval = Math.random() * 10000 + 2000; // Random interval between 1 and 4 seconds
+                changeBackgroundColor();
+                setTimeout(animateBackgroundChange, randomInterval);
+            }
+            // Start the animation
+            animateBackgroundChange();
+            
+            // Function to generate random values
+            function getRandom(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+            
+            // Function to move fish randomly on the screen
+            function swimFish(fish) {
+                // Generate random coordinates within the container boundaries
+                const randomX = getRandom(-150, 1100);
+                const randomY = getRandom(-150, 550);
+                // Apply the random coordinates to move the fish
+                fish.style.left = randomX + "px";
+                fish.style.top = randomY + "px";
+                // Schedule the next swim movement
+                setTimeout(() => swimFish(fish), getRandom(1000, 200));
+            }
+            
+            // Start the swim movement for each fish
+            const fishes = document.querySelectorAll(".fish");
+            fishes.forEach((fish) => {
+                swimFish(fish);
+            });
+
+        fish.addEventListener("click", () => handleFishClick(fish));
+
+        }    
     // Keyframes
         balls.forEach((elem, i, ra) => {
         elem.id = `${i + 1}`;
