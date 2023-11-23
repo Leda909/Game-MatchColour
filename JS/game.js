@@ -1,3 +1,6 @@
+//import { something, animation } from './animation.js'
+//import { catContainer } from './cat.js'
+
 //Building together the levels ==> init() function onload by moving further levels
 const timeLeft = document.querySelector('#time-left');
 let countDownTimerId = null;
@@ -5,8 +8,8 @@ let currentTime = null;
 let timerId = null;
 let Mlevel = 1;
 let numBalls = null;
-let MnumBalls = [18, 28, 40, 10, 64, 70];
-let McurrentTime = [60, 90, 150, 220, 250, 300];
+let MnumBalls = [18, 28, 40, 52, 14, 70];
+let McurrentTime = [30, 60, 120, 180, 220, 250];
 let Mcolors = ["#3CC157", "#2AA7FF", "#ff5050", "#ff9900", "#7a00cc", "#ffa31a", "#00e6b8"];
 let balls = [];
 let fish = null;
@@ -53,13 +56,6 @@ function getFourthBall(thirdBallColor, thirdBallId) {
     if (matchingBalls.length > 0) {
         const ball4 = matchingBalls[Math.floor(Math.random() * matchingBalls.length)];
         return ball4;
-        //console.log(`Fourth Ball ID: ${fourthBallRemoved.id}`);
-        // fourthBallRemoved.remove();
-        // //console.log(`numBallsFourthMatchBefore: ${numBalls}`);
-        // numBalls--;
-        // //console.log(`numBallsFourthMatchAfter: ${numBalls}`);
-        // console.log(`Ball4 Fourth removed: ${fourthBallRemoved.id}`);
-        // return fourthBallRemoved;
     }
     console.log(`matchFourthBall: value null`);
     return null;
@@ -71,17 +67,6 @@ function generateRandomIndex() {
     // console.log(`removedList_1: ${removedList}`);
     return randomIndex;
 }
-
-// function removeRandomBall() {
-//     //console.log(`removedList_2: ${removedList}`);
-//     const randomIndex = generateRandomIndex();
-//     const removedBall = balls.splice(randomIndex, 1)[0];
-//     removedBall.remove();
-//     numBalls--;
-//     //console.log(`numBallsRemoveRandom: ${numBalls}`);
-//     console.log(`Ball4 Third removed: ${removedBall.id}`);
-//     return removedBall;
-// }
 
 function removeBall(ballElement) {
     const index = balls.findIndex(ball => ball.id === ballElement.id);
@@ -106,18 +91,20 @@ function matchTwo(ball1, ball2) {
 }
 
 function matchFour(ball1, ball2) {
-    if (ball1.style.borderRadius === ball2.style.borderRadius &&
+    // Check if numBalls is 4 or less
+    if (balls.length <= 4) {
+        return false;
+    }
+
+    if (ball1 && ball2 && ball1.style && ball2.style &&
+        ball1.style.borderRadius === ball2.style.borderRadius &&
         ball1.style.background === ball2.style.background &&
         ball1.id !== ball2.id) {
-        //console.log("numBallsFOUR_Before: ${numBalls}");
         removeBall(ball1);
         removeBall(ball2);
 
         console.log(`Ball4 First removed: ${ball1.id}`);
         console.log(`Ball4 Second removed: ${ball2.id}`);
-
-        // removedList = [ball1.id, ball2.id];
-        // removedList.push(thirdBallRemoved.id);
 
         const thirdBallIndex = generateRandomIndex();
         const ball3 = balls[thirdBallIndex];
@@ -129,12 +116,12 @@ function matchFour(ball1, ball2) {
 
         console.log(`Ball4 third removed: ${ball3.id}`);
         console.log(`Ball4 fourth removed: ${ball4.id}`);
-        //console.log("numBallsFOUR_After: ${numBalls}");
-        //console.log("RemoveFour");
+
         return true;
     }
     return false;
 }
+
 // If I cklick on the same colour after each other ==> clear them out, if form also match 4 elem
 function matchColor(ball1, ball2) {
     if (Mlevel > 2) {
@@ -155,15 +142,14 @@ function checkNumBalls() {
     //if (balls.length === 0)
     if (balls.length === 0) {
         clearInterval(countDown);
+
         if (Mlevel === 6) {
             balls.forEach(ball => { ball.remove(); });
             fish.remove(); // clear out the last remainings
             alert('You won!!! You are the best!');
             return; // Stop the game progression
         }
-        // balls.forEach(ball => {
-        //     ball.remove();
-        // });
+
         let nextLevel = Mlevel + 1;
         setTimeout(() => {
             alert('Congratulations! You can move to level ' + (nextLevel) + '!');
@@ -222,17 +208,12 @@ function countDown() {
         clearInterval(countDownTimerId);
         clearInterval(timerId);
         alert('Game over');
-        // balls.forEach(ball => {
-        //     ball.remove();
-        // });
-        // Fish.remove();
-        // init(1);
         window.location.reload();
     }
 }
 
 function init(pLevel) {
-    Mlevel = 4;
+    Mlevel = pLevel;
     numBalls = MnumBalls[Mlevel - 1];
     let colors = Mcolors.slice(0, Mlevel + 1);
     currentTime = McurrentTime[Mlevel - 1];
@@ -327,8 +308,8 @@ function init(pLevel) {
             function changeBackgroundColor() {
                 const fishContainer = document.getElementById("fish-container");
                 const fishElements = fishContainer.querySelectorAll("div:not(.eye)");
-                //let randomFishColor = "#2AA7FF";
-                let randomFishColor = Mcolors[Math.floor(Math.random() * Mcolors.length)];
+                let randomFishColor = "#2AA7FF";
+                //let randomFishColor = Mcolors[Math.floor(Math.random() * Mcolors.length)];
                 fishElements.forEach((fish) => {
                     fish.style.background = randomFishColor;
                 });
@@ -393,7 +374,7 @@ function init(pLevel) {
                 setInterval(toggleOpacity, duration + alternateDuration);
             } // ------ End of Opacity ------------
 
-            // Function to generate a random color
+            // Function to generate a random color balls
             const getRandomColor = (ball) => {
                 return colors[Math.floor(Math.random() * colors.length)];
             };
